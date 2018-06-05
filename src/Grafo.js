@@ -97,6 +97,7 @@ export class Grafo {
     if (actual.valor === valor) {
       return true;
     }
+    console.log(actual);
     this.visitados.push(actual.valor);
     const destino = Nodos[valor];
     const corto = {
@@ -110,10 +111,11 @@ export class Grafo {
         corto.nodo = nodo;
       }
     }
-    if (this.primero(valor, corto.nodo)) {
+    if (this.colina(valor, corto.nodo)) {
       return true;
     }
   }
+  examinados = [];
 
   aEstrella(valor, actual = Nodos[this.nodoActual.valor]) {
     if (valor === actual.valor) {
@@ -127,8 +129,9 @@ export class Grafo {
       nodo: undefined
     }
     for (const el of actual.rels) {
-      const nodo = Nodos[rel];
-      const distancia = this.getDistancia(nodo, distancia);
+      const nodo = Nodos[el];
+      nodo.distancia = 0;
+      const distancia = this.getDistancia(nodo, destino);
       if (corto.distancia || corto.distancia < distancia) {
         corto.distancia = distancia;
         corto.nodo = nodo;
@@ -138,8 +141,10 @@ export class Grafo {
     this.lista.sort((a, b) => a.distancia - b.distancia);
     while (this.lista.length !== 0) {
       const n = this.lista.shift();
+      console.log(n);
+      this.examinados.push(n);
       const rels = this.getDistanciasOfRels(n, destino);
-      if(rels.find(n => n.nodo.valor === valor)) {
+      if(rels.find(n => n.valor === valor)) {
         return true;
       }
       this.lista = this.lista.concat(rels);
@@ -152,7 +157,7 @@ export class Grafo {
     const actual = Nodos[this.nodoActual.valor];
     for (const el of nodo.rels) {
       const distancia = this.getDistancia(nodo, destino);
-      lista.push({ nodo: Nodos[el], distancia: n.distancia + distancia });
+      lista.push({ ...Nodos[el], distancia: nodo.distancia + distancia });
     }
     return lista.sort((a, b) => a.distancia - b.distancia);
   }
