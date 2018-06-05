@@ -1,0 +1,20 @@
+export default {
+  i: ['g', 'entrada1'],
+  l: ['k', 'd', 'o'],
+  k: ['e', 'd', 'l', 'f'],
+  o: ['l', 'p', 'd'],
+  d: ['k', 'l', 'o', 'p', 'a', 'b'],
+  p: ['o', 'd'],
+  e: ['g', 'f', 'k'],
+  h: ['entrada1', 'g'],
+  j: ['entrada1', 'entrada2'],
+  f: ['entrada2', 'e', 'b', 'c', 'k'],
+  g: ['i', 'e', 'h', 'entrada2'],
+  c: ['f', 'b', 'r'],
+  b: ['f', 'c', 'r', 'a', 'd'],
+  r: ['c', 'b', 'a', 'entrada3'],
+  a: ['d', 'b', 'entrada3'],
+  entrada1: ['i', 'h', 'j'],
+  entrada2: ['j', 'f', 'g'],
+  entrada3: ['a', 'r']
+}
