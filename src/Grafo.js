@@ -95,23 +95,26 @@ export class Grafo {
 
   colina(valor, actual = Nodos[this.nodoActual.valor]) {
     if (actual.valor === valor) {
+      console.log('Returning 2');
       return true;
     }
     console.log(actual);
     this.visitados.push(actual.valor);
     const destino = Nodos[valor];
     const corto = {
-      distancia: undefined,
+      distancia: Infinity,
       nodo: undefined
     };
     for (const rel of actual.rels) {
       const nodo = Nodos[rel];
       const distancia = this.getDistancia(nodo, destino);
-      if (distancia === undefined || distancia < corto.distancia) {
+      if (distancia < corto.distancia) {
         corto.nodo = nodo;
+        corto.distancia = distancia;
       }
     }
     if (this.colina(valor, corto.nodo)) {
+      console.log('Returning 1');
       return true;
     }
   }
@@ -140,6 +143,7 @@ export class Grafo {
     }
     this.lista.sort((a, b) => a.distancia - b.distancia);
     while (this.lista.length !== 0) {
+
       const n = this.lista.shift();
       console.log(n);
       this.examinados.push(n);
