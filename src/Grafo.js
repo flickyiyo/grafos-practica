@@ -127,18 +127,10 @@ export class Grafo {
 
     this.visitados.push(actual.valor);
     const destino = Nodos[valor];
-    const corto = {
-      distancia: undefined,
-      nodo: undefined
-    }
     for (const el of actual.rels) {
       const nodo = Nodos[el];
       nodo.distancia = 0;
       const distancia = this.getDistancia(nodo, destino);
-      if (corto.distancia || corto.distancia < distancia) {
-        corto.distancia = distancia;
-        corto.nodo = nodo;
-      }
       this.lista.push({ ...nodo, distancia });
     }
     this.lista.sort((a, b) => a.distancia - b.distancia);
