@@ -14,7 +14,7 @@ export default {
   b: ['f', 'c', 'r', 'a', 'd'],
   r: ['c', 'b', 'a', 'entrada3'],
   a: ['d', 'b', 'entrada3'],
-  entrada1: ['i', 'h', 'j'],
+  entrada1: ['j', 'h', 'i'],
   entrada2: ['j', 'f', 'g'],
   entrada3: ['a', 'r']
 }

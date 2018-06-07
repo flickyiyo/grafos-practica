@@ -94,12 +94,10 @@ export class Grafo {
   }
 
   colina(valor, actual = Nodos[this.nodoActual.valor]) {
+    console.log(actual);
     if (actual.valor === valor) {
-      console.log('Returning 2');
       return true;
     }
-    console.log(actual);
-    this.visitados.push(actual.valor);
     const destino = Nodos[valor];
     const corto = {
       distancia: Infinity,
@@ -108,13 +106,13 @@ export class Grafo {
     for (const rel of actual.rels) {
       const nodo = Nodos[rel];
       const distancia = this.getDistancia(nodo, destino);
+      console.log(distancia, rel);
       if (distancia < corto.distancia) {
         corto.nodo = nodo;
         corto.distancia = distancia;
       }
     }
     if (this.colina(valor, corto.nodo)) {
-      console.log('Returning 1');
       return true;
     }
   }
@@ -127,24 +125,28 @@ export class Grafo {
 
     this.visitados.push(actual.valor);
     const destino = Nodos[valor];
+    const lista = [];
     for (const el of actual.rels) {
       const nodo = Nodos[el];
       nodo.distancia = 0;
-      const distancia = this.getDistancia(nodo, destino);
-      this.lista.push({ ...nodo, distancia });
+      const distanciaAlDestino = this.getDistancia(nodo, destino);
+      const distanciaAlSiguiente = this.getDistancia(actual, nodo);
+      const distancia = distanciaAlDestino + distanciaAlSiguiente;
+      lista.push({ ...nodo, distancia });
     }
-    this.lista.sort((a, b) => a.distancia - b.distancia);
-    while (this.lista.length !== 0) {
+    lista.sort((a, b) => a.distancia - b.distancia);
+    while (lista.length !== 0) {
 
-      const n = this.lista.shift();
+      const n = lista.shift();
       console.log(n);
       this.examinados.push(n);
       const rels = this.getDistanciasOfRels(n, destino);
-      if(rels.find(n => n.valor === valor)) {
-        return true;
-      }
-      this.lista = this.lista.concat(rels);
-      this.lista.sort((a, b) => a.distancia - b.distancia);
+      // if(rels.find(n => n.valor === valor)) {
+      //   return true;
+      // }
+      if(this.aEstrella(valor, n));
+      // this.lista = this.lista.concat(rels);
+      // this.lista.sort((a, b) => a.distancia - b.distancia);
     }
   }
 
@@ -218,8 +220,9 @@ export class Grafo {
 
   }
   getDistancia(nodo1, nodo2) {
-    const diffX = Math.pow(nodo2.x, 2) - Math.pow(nodo1.x, 2);
-    const diffY = Math.pow(nodo2.y, 2) - Math.pow(nodo1.y, 2);
+    const diffX = Math.pow(nodo2.x - nodo1.x, 2);
+    const diffY = Math.pow(nodo2.y - nodo1.y, 2);
+    
     return Math.sqrt(diffX + diffY);
   }
 
