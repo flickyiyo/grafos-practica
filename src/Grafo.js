@@ -128,7 +128,6 @@ export class Grafo {
     const lista = [];
     for (const el of actual.rels) {
       const nodo = Nodos[el];
-      nodo.distancia = 0;
       const distanciaAlDestino = this.getDistancia(nodo, destino);
       const distanciaAlSiguiente = this.getDistancia(actual, nodo);
       const distancia = distanciaAlDestino + distanciaAlSiguiente;
@@ -138,13 +137,18 @@ export class Grafo {
     while (lista.length !== 0) {
 
       const n = lista.shift();
-      console.log(n);
+      // console.log(n);
       this.examinados.push(n);
+
       const rels = this.getDistanciasOfRels(n, destino);
       // if(rels.find(n => n.valor === valor)) {
       //   return true;
       // }
-      if(this.aEstrella(valor, n));
+      if(this.aEstrella(valor, n)) {
+        this.padres.push(actual);
+        console.log('padres', this.padres);
+        return true;
+      }
       // this.lista = this.lista.concat(rels);
       // this.lista.sort((a, b) => a.distancia - b.distancia);
     }
